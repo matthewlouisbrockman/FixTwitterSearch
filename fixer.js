@@ -8,6 +8,12 @@ const handleTokenization = (e) => {
     console.log("woo, from detected");
     clearTarget(e.target);
     insertFromElement(e.target);
+  } // if it's empty and it's a backspace
+  else if (e.target.value === "" && e.key === "Backspace") {
+    if (document.getElementById("secret-id-identifier")) {
+      //kill it
+      document.getElementById("secret-id-identifier").remove();
+    }
   }
 };
 
