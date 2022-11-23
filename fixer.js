@@ -36,30 +36,48 @@ const insertFromElement = (target) => {
 };
 
 const handleEnterListener = (e) => {
+  console.log("e: ", e.target);
   //if the secret id isn't up, don't do anything
   if (!document.getElementById("secret-id-identifier")) {
     return;
   }
 
-  e.preventDefault();
-  e.stopPropagation();
+  const selected = document.querySelector(
+    '[role="option"][aria-selected="true"]'
+  );
 
-  //use regex to find the target - first person after the @
-  const regex = /@(\w+)/g;
+  if (selected) {
+    e.preventDefault();
+    e.stopPropagation();
+    //get the text
+    const text = selected.innerText;
+    const regex = /@(\w+)/g;
 
-  //get the text
-  const text = e.target.value;
+    const target = text.match(regex)[0];
 
-  const target = text.match(regex)[0];
+    console.log("target", target);
+    clearTarget(document.querySelector('[aria-label="Search query"]'), target);
+  } else if (e.target.tagName === "INPUT") {
+    e.preventDefault();
+    e.stopPropagation();
 
-  //search is everything after the @word
-  let searchString = text.substring(target.length);
+    //use regex to find the target - first person after the @
+    const regex = /@(\w+)/g;
 
-  searchString = searchString.trim().replace('" "', "%20");
+    //get the text
+    const text = e.target.value;
 
-  const url = `https://twitter.com/search?q=(from%3A${target})${searchString}&src=typed_query&f=top`;
+    const target = text.match(regex)[0];
 
-  window.location.href = url;
+    //search is everything after the @word
+    let searchString = text.substring(target.length);
+
+    searchString = searchString.trim().replace('" "', "%20");
+
+    const url = `https://twitter.com/search?q=(from%3A${target})${searchString}&src=typed_query&f=top`;
+
+    window.location.href = url;
+  }
 };
 
 const handleMouseClick = (e) => {
