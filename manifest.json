@@ -1,0 +1,17 @@
+{
+  "name": "Fixing Twitter Search",
+  "description": "Search should have From: tokenized",
+  "version": "1.0",
+  "manifest_version": 3,
+  "permissions": ["activeTab"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://twitter.com/*"],
+      "js": ["fixer.js"],
+      "run_at": "document_end"
+    }
+  ]
+}
